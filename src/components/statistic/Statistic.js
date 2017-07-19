@@ -11,8 +11,8 @@ class Statistic extends AbstractElement{
         return new this(element, store);
     }
 
-    constructor(){
-        super(...arguments);
+    constructor(element, store){
+        super(element, store);
 
         this.nodes = {
             attempt: {
@@ -46,17 +46,18 @@ class Statistic extends AbstractElement{
         this.render();
     }
 
-    updateView(props = {}){
-        const { cells } = props;
-        if (cells) {
-            this.attempts.all += 3;
-            this.attempts.success += 1;
+    updateView({ attempts, aliveShips }){
+        if (attempts) {
+            this.attempts = {...attempts};
             this.attempts.failed = this.attempts.all - this.attempts.success;
             this.attempts.percent = parseFloat((this.attempts.success * 100 / this.attempts.all).toFixed(2));
-
         }
 
-        this.render();
+        if (aliveShips) {
+            this.aliveShips = {...aliveShips}
+        }
+
+        this.render(this.nodes);
     }
 
     render() {
