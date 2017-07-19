@@ -118,11 +118,6 @@ class Ship {
             }, []);
     }
 
-    filterRepeat(arrayXY){
-        const set = new Set(...arrayXY);
-        return [...set];
-    }
-
     filterCells([x,y]){
         return this.isValid(x) && this.isValid(y)
     }

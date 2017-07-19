@@ -1,4 +1,5 @@
 import AbstractElement from '../common/AbstractElement';
+import GameController from "../../core/GameController";
 
 class Grid extends AbstractElement {
     static init(){
@@ -9,8 +10,12 @@ class Grid extends AbstractElement {
         super(...arguments);
         this._renderGrid();
 
+        this.store.setDefaultState({
+            cells: [],
+            ships: []
+        });
+
         this._eventHandlers = [];
-        this.store.setState();
     }
 
     _renderGrid(){
@@ -70,10 +75,18 @@ class Grid extends AbstractElement {
         }
     }
 
-    updateView({ cells }){
+    updateView({ cells, gameState }){
         if (cells) {
             this.updateCells(cells);
         }
+        if (gameState) {
+            this.disabledGrid = gameState !== GameController.ATTACHED_SHIPS;
+            this.updateGridState();
+        }
+    }
+
+    updateGridState() {
+        this.root.classList[this.disabledGrid ? 'add' : 'remove']('disabled');
     }
 
     updateCells(cells = []){

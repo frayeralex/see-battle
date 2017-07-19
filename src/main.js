@@ -1,5 +1,6 @@
 import './main.styl';
 import Store from './store/Store';
+import GameController from "./core/GameController";
 
 // Components
 import Statistic from './components/statistic/Statistic';
@@ -9,10 +10,9 @@ import Controls from './components/controls/Controls';
 //
 import GridComposer from './components/grid/GridComposer';
 
-const store = Store.init({
-    cells: [],
-    ships: [],
-});
+
+const store = Store.init();
+GameController.observe(store);
 
 const statisticNode = document.querySelector('#statistic');
 const statisticView = Statistic.init(statisticNode, store);

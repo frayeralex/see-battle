@@ -22,7 +22,7 @@ class Store {
     /**
      * Clear all properties from store
      */
-    reset(){
+    reset() {
         this._state = {};
         this._publish();
     }
@@ -31,10 +31,15 @@ class Store {
      * Update store properties
      * @param object
      */
-    setState(object){
+    setState(object) {
         if (typeof object !== 'object') return;
         this._state = {...this._state, ...object};
         this._publish(object);
+    }
+
+    setDefaultState(object) {
+        if (typeof object !== 'object') return;
+        this._state = {...this._state, ...object};
     }
 
     /**

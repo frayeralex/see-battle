@@ -1,4 +1,5 @@
 import AbstractElement from '../common/AbstractElement';
+import GameController from "../../core/GameController";
 
 class Controls extends AbstractElement{
     /**
@@ -25,7 +26,7 @@ class Controls extends AbstractElement{
         this.controls = {
             start: {
                 label: 'Start',
-                disabled: false
+                disabled: true
             },
             pause: {
                 label: 'Pause',
@@ -36,6 +37,7 @@ class Controls extends AbstractElement{
                 disabled: true
             }
         };
+        this.store.setDefaultState({controls: this.controls})
 
         this.nodes.controls.start.addEventListener('click', this.startClickHandler.bind(this));
         this.nodes.controls.pause.addEventListener('click', this.pauseClickHandler.bind(this));
@@ -54,7 +56,10 @@ class Controls extends AbstractElement{
                 ...newStart,
                 ...newPause,
                 ...newClear
-            }
+            },
+            gameState: this.store.state.gameState === GameController.ATTACHED_SHIPS
+                ? GameController.ATTACHED_COPM_SHIPS
+                : this.store.state.gameState,
         });
     }
 
@@ -73,7 +78,7 @@ class Controls extends AbstractElement{
     }
 
     clearClickHandler(){
-        const newStart = {start: {...this.controls.start, ...{disabled: true}}};
+        const newStart = {start: {...this.controls.start, ...{disabled: true, label: 'Start'}}};
         const newPause = {pause: {...this.controls.pause, ...{disabled: true}}};
         const newClear = {clear: {...this.controls.clear, ...{disabled: true}}};
         this.store.setState({
