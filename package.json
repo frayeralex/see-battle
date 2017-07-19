@@ -1,0 +1,17 @@
+{
+  "name": "sea-battle",
+  "version": "0.0.1",
+  "description": "game with a computer as a web-application",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "game"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^3.1.0"
+  }
+}
