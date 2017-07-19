@@ -23,11 +23,3 @@ $ npm run build
 ```text
 $ npm run test
 ```
-
-### Development server
-
-[https://kanban--board.herokuapp.com](https://kanban--board.herokuapp.com)
-
-####
-  username: alex,
-  password: asdfasdf
