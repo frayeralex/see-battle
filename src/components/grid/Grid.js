@@ -1,6 +1,6 @@
 import AbstractElement from '../common/AbstractElement';
 
-class Grid extends AbstractElement{
+class Grid extends AbstractElement {
     static init(){
         return new this(...arguments);
     }

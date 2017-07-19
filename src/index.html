@@ -8,32 +8,62 @@
     <div id="root">
         <div class="area">
             <div id="statistic">
-                <ul class="ships-list">
-                    <li data-type="4">
-                        <span>4 ships</span>
-                        <span class="count"></span>
-                    </li>
-                    <li data-type="3">
-                        <span>3 ships</span>
-                        <span class="count"></span>
-                    </li>
-                    <li data-type="2">
-                        <span>2 ships</span>
-                        <span class="count"></span>
-                    </li>
-                    <li data-type="1">
-                        <span>1 ships</span>
-                        <span class="count"></span>
-                    </li>
-                </ul>
+                <h2>Number of your attempts</h2>
+                <div class="flex-wrap">
+                    <div class="left-block">
+                        <h3 class="title">Attempts</h3>
+                        <ul class="simple-list attempt">
+                            <li class="item">
+                                <span class="label">All</span>
+                                <span class="value" data-key="all"></span>
+                            </li>
+                            <li class="item">
+                                <span class="label">Success</span>
+                                <span class="value" data-key="success"></span>
+                            </li>
+                            <li class="item">
+                                <span class="label">Failed</span>
+                                <span class="value" data-key="failed"></span>
+                            </li>
+                            <li class="item">
+                                <span class="label">Percent of successful</span>
+                                <span class="value" data-key="percent"></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="right-block">
+                        <h3 class="title">Alive/damaged opponent ships</h3>
+                        <ul class="simple-list ships">
+                            <li class="item">
+                                <span class="label">4 cells ship</span>
+                                <span class="value" data-key="4">2</span>
+                            </li>
+                            <li class="item">
+                                <span class="label">3 cells ships</span>
+                                <span class="value" data-key="3"></span>
+                            </li>
+                            <li class="item">
+                                <span class="label">2 cells ships</span>
+                                <span class="value" data-key="2"></span>
+                            </li>
+                            <li class="item">
+                                <span class="label">1 cell ships</span>
+                                <span class="value" data-key="1"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
             <div class="sea-blocks">
                 <div class="user grid"></div>
+                <div class="computer grid"></div>
             </div>
 
-            <div class="controls">
-                <button class="reset">reset</button>
+            <div id="controls">
+                <button class="btn start">Start</button>
+                <button class="btn pause">Pause</button>
+                <button class="btn clear">Clear game</button>
             </div>
         </div>
     </div>

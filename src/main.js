@@ -13,11 +13,12 @@ const store = Store.init({
     ships: [],
 });
 
+const statisticNode = document.querySelector('#statistic');
+const statisticView = Statistic.init(statisticNode, store);
+
 const userGridNode = document.querySelector('.sea-blocks .user');
 const userGrid = Grid.init(userGridNode, store);
 
 GridComposer.init(userGrid, store);
-
-new Statistic(document.querySelector('#statistic'), store);
 
 
