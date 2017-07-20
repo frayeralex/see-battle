@@ -4,7 +4,8 @@ import GameController from "./core/GameController";
 
 // Components
 import Statistic from './components/statistic/Statistic';
-import Grid from './components/grid/Grid';
+import UserGrid from './components/grid/UserGrid';
+import ComputerGrid from './components/grid/ComputerGrid';
 import Controls from './components/controls/Controls';
 
 //
@@ -21,8 +22,13 @@ const controlsNode = document.querySelector('#controls');
 const controlsView = Controls.init(controlsNode, store);
 
 const userGridNode = document.querySelector('.sea-blocks .user');
-const userGrid = Grid.init(userGridNode, store);
+const userGrid = UserGrid.init(userGridNode, store);
+
+const computerGridNode = document.querySelector('.sea-blocks .computer');
+const computerGrid = ComputerGrid.init(computerGridNode, store);
+
 
 GridComposer.init(userGrid, store);
+GridComposer.init(computerGrid, store);
 
 

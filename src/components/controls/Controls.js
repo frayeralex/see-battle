@@ -20,6 +20,7 @@ class Controls extends AbstractElement{
                 start: this.root.querySelector('.start'),
                 pause: this.root.querySelector('.pause'),
                 clear: this.root.querySelector('.clear'),
+                random: this.root.querySelector('.random')
             }
         };
 
@@ -35,6 +36,10 @@ class Controls extends AbstractElement{
             clear: {
                 label: 'Clear',
                 disabled: true
+            },
+            random: {
+                label: 'Random generation',
+                disabled: false
             }
         };
         this.store.setDefaultState({controls: this.controls})
@@ -42,6 +47,7 @@ class Controls extends AbstractElement{
         this.nodes.controls.start.addEventListener('click', this.startClickHandler.bind(this));
         this.nodes.controls.pause.addEventListener('click', this.pauseClickHandler.bind(this));
         this.nodes.controls.clear.addEventListener('click', this.clearClickHandler.bind(this));
+        this.nodes.controls.random.addEventListener('click', this.randomClickHandler.bind(this));
 
         this.render();
     }
@@ -92,6 +98,12 @@ class Controls extends AbstractElement{
             ships: [],
             gameState: GameController.ATTACHED_SHIPS
         });
+    }
+
+    randomClickHandler(){
+        const ships = GameController.createRandomShips();
+        const cells = GameController.shipsToCells(ships);
+        this.store.setState({ships, cells});
     }
 
     updateView({ controls }) {

@@ -2,18 +2,9 @@ import AbstractElement from '../common/AbstractElement';
 import GameController from "../../core/GameController";
 
 class Grid extends AbstractElement {
-    static init(){
-        return new this(...arguments);
-    }
-
     constructor(){
         super(...arguments);
         this._renderGrid();
-
-        this.store.setDefaultState({
-            cells: [],
-            ships: []
-        });
 
         this._eventHandlers = [];
     }
@@ -57,10 +48,10 @@ class Grid extends AbstractElement {
 
     addEventHandler(type, callback) {
         this._eventHandlers.push({ type, callback });
-        return () => this.removeEventHandler(type, callback);
+        return () => this._removeEventHandler(type, callback);
     }
 
-    removeEventHandler(type, callback) {
+    _removeEventHandler(type, callback) {
         this._eventHandlers = this._eventHandlers.filter(handler => !(handler.callback === callback && handler.type === type));
     }
 
@@ -73,36 +64,6 @@ class Grid extends AbstractElement {
             }
             return position;
         }
-    }
-
-    updateView({ cells, gameState }){
-        if (cells) {
-            this.updateCells(cells);
-        }
-        if (gameState) {
-            this.disabledGrid = gameState !== GameController.ATTACHED_SHIPS;
-            this.updateGridState();
-        }
-    }
-
-    updateGridState() {
-        this.root.classList[this.disabledGrid ? 'add' : 'remove']('disabled');
-    }
-
-    updateCells(cells = []){
-        this.removeShips();
-        cells.forEach(position => {
-            const ship = document.createElement('div');
-            ship.classList.add('ship');
-            const target = this.root.querySelector(`.ship-area [data-${Grid.ROW_KEY}="${position.x}"] [data-${Grid.CELL_KEY}="${position.y}"]`);
-            if (target instanceof Element) {
-                target.appendChild(ship);
-            }
-        })
-    }
-
-    removeShips(){
-        this.root.querySelectorAll('.ship-area .ship').forEach(node => node.remove());
     }
 
     _onCellClick(event){
