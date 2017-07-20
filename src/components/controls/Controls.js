@@ -89,7 +89,8 @@ class Controls extends AbstractElement{
                 ...newClear
             },
             cells: [],
-            ships: {}
+            ships: [],
+            gameState: GameController.ATTACHED_SHIPS
         });
     }
 

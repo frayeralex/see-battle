@@ -41,6 +41,10 @@ class Ship {
         return this.nearestCells.find((xy) => xy[0] === x && xy[1] === y);
     }
 
+    isShipNearest(ship) {
+        return ship.coordinats.some(xy => this.isNearest(xy.x, xy.y));
+    }
+
     getCoordinates(){
         return this.coordinats;
     }
