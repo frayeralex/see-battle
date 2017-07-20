@@ -1,34 +1,44 @@
 import './main.styl';
-import Store from './store/Store';
-import GameController from "./core/GameController";
 
-// Components
+// Model
+import Store from './store/Store';
+
+// View
 import Statistic from './components/statistic/Statistic';
-import UserGrid from './components/grid/UserGrid';
-import ComputerGrid from './components/grid/ComputerGrid';
+import UserGrid from './components/grid/user/UserGrid';
+import ComputerGrid from './components/grid/computer/ComputerGrid';
 import Controls from './components/controls/Controls';
 
-//
-import GridComposer from './components/grid/GridComposer';
+// ViewModel
+import GameController from './core/GameController';
+import UserGridController from './core/UserGridController';
+import ComputerGridController from './core/ComputerGridController';
 
+
+const config = {
+  components: [
+    {
+      selector: '#statistic',
+      view: Statistic
+    },
+    {
+      selector: '#controls',
+      view: Controls
+    },
+    {
+      selector: '.sea-blocks .user',
+      view: UserGrid,
+      controller: UserGridController
+    },
+    {
+      selector: '.sea-blocks .computer',
+      view: ComputerGrid,
+      controller: ComputerGridController
+    },
+  ]
+};
 
 const store = Store.init();
-GameController.observe(store);
-
-const statisticNode = document.querySelector('#statistic');
-const statisticView = Statistic.init(statisticNode, store);
-
-const controlsNode = document.querySelector('#controls');
-const controlsView = Controls.init(controlsNode, store);
-
-const userGridNode = document.querySelector('.sea-blocks .user');
-const userGrid = UserGrid.init(userGridNode, store);
-
-const computerGridNode = document.querySelector('.sea-blocks .computer');
-const computerGrid = ComputerGrid.init(computerGridNode, store);
-
-
-GridComposer.init(userGrid, store);
-GridComposer.init(computerGrid, store);
+GameController.bootstrap(store, config);
 
 
