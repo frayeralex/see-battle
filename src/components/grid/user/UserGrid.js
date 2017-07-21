@@ -9,11 +9,6 @@ class UserGrid extends Grid {
 
   constructor() {
     super(...arguments);
-
-    this.store.setDefaultState({
-      cells: [],
-      ships: []
-    });
   }
 
   updateView({cells, gameState}) {

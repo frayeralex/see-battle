@@ -45,16 +45,8 @@ class Ship {
     return ship.coordinats.some(xy => this.isNearest(xy.x, xy.y));
   }
 
-  getCoordinates() {
-    return this.coordinats;
-  }
-
   isInCoordinates(x, y) {
     return !!this.coordinats.find((cell) => cell.x === x && cell.y === y);
-  }
-
-  gettNearestCells() {
-    return this.nearestCells;
   }
 
   setDamage(x, y) {
@@ -69,6 +61,10 @@ class Ship {
         return cell;
       });
     }
+  }
+
+  isKilled() {
+    return this.coordinats.every(cell => cell.status === Ship.KILL);
   }
 
   globalUpdate() {

@@ -47,15 +47,17 @@ class Statistic extends AbstractElement {
     this.render();
   }
 
-  updateView({attempts, aliveShips}) {
+  updateView({attempts, compShips}) {
     if (attempts) {
       this.attempts = {...attempts};
       this.attempts.failed = this.attempts.all - this.attempts.success;
       this.attempts.percent = parseFloat((this.attempts.success * 100 / this.attempts.all).toFixed(2));
     }
 
-    if (aliveShips) {
-      this.aliveShips = {...aliveShips};
+    if (compShips) {
+      for (let type = 1; type <= 4; type++) {
+        this.aliveShips[`cell${type}`] = compShips.filter(ship => ship.type === type && !ship.isKilled()).length
+      }
     }
 
     this.render(this.nodes);

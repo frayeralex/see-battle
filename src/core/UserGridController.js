@@ -14,6 +14,11 @@ class GridComposer {
     this.grid = gridView;
     this.store = store;
 
+    this.store.setDefaultState({
+      cells: [],
+      ships: []
+    });
+
     this.grid.addEventHandler(Grid.EVENT_CELL_CLICKED, this._onCellClicked.bind(this));
   }
 

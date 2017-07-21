@@ -7,6 +7,10 @@ class GameController {
     return new this(store, components);
   }
 
+  static randomNumber(max){
+    return Math.floor(Math.random() * (max + 1));
+  }
+
   static initComponents(components, store) {
     return components.map(({selector, view, controller}) => {
       const node = document.querySelector(selector);
@@ -18,12 +22,25 @@ class GameController {
     });
   }
 
+  static shipsToCells(ships) {
+    if (!Array.isArray(ships)) return [];
+
+    return ships.reduce((cells, ship) => {
+      return cells.concat(ship.coordinats.map(({x, y}) => ({x, y})));
+    }, []);
+  }
+
   constructor(store, components) {
     this.components = components;
     this.store = store;
     this.store.subscribe(this.observeChanges.bind(this));
 
-    this.store.setState({gameState: GameController.ATTACHED_SHIPS});
+    this.store.setDefaultState({
+      gameState: GameController.ATTACHED_SHIPS,
+      compMissCells: [],
+      compHitCells: [],
+      compCanHitCells: GameController.generateGridCoordinates()
+    });
 
     this.yourShips = {
       cell4: 0,
@@ -35,6 +52,20 @@ class GameController {
 
   get gameState() {
     return this.store.state.gameState;
+  }
+
+  get ships() {
+    return this.store.state.ships;
+  }
+
+  get compMissCells() {
+    return this.store.state.compMissCells;
+  }
+  get compHitCells() {
+    return this.store.state.compHitCells;
+  }
+  get compCanHitCells() {
+    return this.store.state.compCanHitCells;
   }
 
   observeChanges(props = {}) {
@@ -58,7 +89,9 @@ class GameController {
         console.log('User action');
         break;
       case GameController.COMP_ACTION:
-        console.log('Comp action');
+        setTimeout(() => {
+          this.runCompAction();
+        }, (GameController.randomNumber(3) + 1) * 1000);
         break;
       case GameController.END_GAME:
         console.log('end game');
@@ -112,12 +145,32 @@ class GameController {
     return compShips;
   }
 
-  static shipsToCells(ships) {
-    if (!Array.isArray(ships)) return [];
+  runCompAction() {
+    const {x, y} = this.compCanHitCells[GameController.randomNumber(this.compCanHitCells.length -1)];
+    const damagedShip = this.ships.find(ship => ship.isInCoordinates(x ,y));
+    let compCanHitCells = this.compCanHitCells.filter((item) => item.x !== x && item.y !== y);
+    let cellAroundShip = [];
+    if (damagedShip) {
+      damagedShip.setDamage(x, y);
+      if (damagedShip.isKilled()) {
+        cellAroundShip = damagedShip.nearestCells.map(([x,y]) => ({x, y}));
+        compCanHitCells = compCanHitCells.filter(({x, y}) => !cellAroundShip.some((cell) => cell.x === x && cell.y === y));
+      }
+      return this.store.setState({
+        compMissCells: [...this.compMissCells, ...cellAroundShip],
+        compHitCells: [...this.compHitCells, {x, y}],
+        ships: [...this.ships],
+        compCanHitCells,
+        gameState: GameController.COMP_ACTION
+      });
+    }
 
-    return ships.reduce((cells, ship) => {
-      return cells.concat(ship.coordinats.map(({x, y}) => ({x, y})));
-    }, []);
+    return this.store.setState({
+      compMissCells: [...this.compMissCells, {x, y}],
+      ships: [...this.ships],
+      compCanHitCells,
+      gameState: GameController.USER_ACTION
+    });
   }
 
   shipsObserve(ships) {
@@ -141,10 +194,10 @@ class GameController {
   }
 
   get isReadyToStart() {
-    if (this.yourShips.cell1 !== 4) return false;
-    if (this.yourShips.cell2 !== 3) return false;
-    if (this.yourShips.cell3 !== 2) return false;
-    return this.yourShips.cell4 === 1;
+    for (let type = 1; type <= 4; type++) {
+      if (this.yourShips[`cell${type}`] !== 5 - type) return false;
+    }
+    return true;
   }
 
   controlsObserve(controls) {

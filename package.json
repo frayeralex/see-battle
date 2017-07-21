@@ -4,7 +4,7 @@
   "description": "game with a computer as a web-application",
   "main": "main.js",
   "scripts": {
-    "serve": "webpack-dev-server",
+    "serve": "webpack-dev-server --open",
     "build": "webpack -p",
     "test": "mocha --compilers js:babel-register --require ignore-styles --require babel-polyfill -R progress ./src/**/*.spec.js"
   },
