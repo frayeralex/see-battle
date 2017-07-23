@@ -28,7 +28,7 @@ class Ship {
 
   removeChunk(x, y) {
     if (this.isInCoordinates(x, y)) {
-      this.coordinats = this.coordinats.filter((coord) => coord.x === x && coord.y === y);
+      this.coordinats = this.coordinats.filter(({x: X, y: Y}) => !(X === x && Y === y));
       this.globalUpdate();
     }
   }
@@ -38,7 +38,7 @@ class Ship {
   }
 
   isNearest(x, y) {
-    return this.nearestCells.find((xy) => xy[0] === x && xy[1] === y);
+    return this.nearestCells.findIndex(([X, Y]) => X === x && Y === y) !== -1;
   }
 
   isShipNearest(ship) {

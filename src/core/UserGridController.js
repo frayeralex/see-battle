@@ -16,22 +16,22 @@ class GridComposer {
     this.grid.addEventHandler(Grid.EVENT_CELL_CLICKED, this._onCellClicked.bind(this));
   }
 
-  _onCellClicked({position}) {
+  _onCellClicked({x, y}) {
     const {cells} = this.store.state;
 
-    const cell = cells.find(cell => cell.x === position.x && cell.y === position.y);
+    const cell = cells.find(cell => cell.x === x && cell.y === y);
     if (cell) {
-      this.removeState(position);
+      this.removeState({x, y});
       return this.store.setState({cells: cells.filter(item => item !== cell)});
     }
-    this.addState(position);
+    this.addState({x, y});
   }
 
-  removeState(position) {
-    const ship = this.ships.find(ship => ship.isInCoordinates(position.x, position.y));
+  removeState({x, y}) {
+    const ship = this.ships.find(ship => ship.isInCoordinates(x, y));
     if (ship) {
       if (ship.type > 1) {
-        ship.removeChunk(position.x, position.y);
+        ship.removeChunk(x, y);
         return this.store.setState({ships: this.ships});
       }
       this.store.setState({ships: this.ships.filter(item => item !== ship)});

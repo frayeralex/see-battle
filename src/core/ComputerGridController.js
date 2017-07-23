@@ -14,9 +14,8 @@ class ComputerGridController {
     this.grid = gridView;
     this.store = store;
 
-    this.grid.addEventHandler(Grid.EVENT_CELL_CLICKED, this._onCellClicked.bind(this));
-    this.store.subscribe(this.observeStore.bind(this));
-
+    this.grid.addEventHandler(Grid.EVENT_CELL_CLICKED, this.onCellClicked.bind(this));
+    this.attemptRequest = false;
   }
 
   get compShips() {
@@ -39,13 +38,15 @@ class ComputerGridController {
     return this.store.state.userHitCells || [];
   }
 
-  observeStore() {
-
-  }
-
-  _onCellClicked({position}) {
+  onCellClicked({position}) {
+    if (this.attemptRequest) return;
     if (this.gameState !== GameController.USER_ACTION) return;
-    this.userAttempt(position);
+
+    this.attemptRequest = true;
+    setTimeout(() => {
+      this.userAttempt(position);
+      this.attemptRequest = false;
+    }, GameController.randomNumber(1500));
   }
 
   userAttempt({x, y}) {

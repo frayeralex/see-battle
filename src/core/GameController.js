@@ -117,7 +117,17 @@ class GameController {
   gameStateObserve(state) {
     switch (state) {
       case GameController.ATTACHED_SHIPS:
-        this.store.setState({...defaultState, ...{attempts: this.attempts}});
+        this.store.setState({
+          ...{attempts: this.attempts},
+          cells: [],
+          ships: [],
+          compShips: [],
+          userMissCells: [],
+          userHitCells: [],
+          compMissCells: [],
+          compHitCells: [],
+          compCanHitCells: GameController.generateGridCoordinates(),
+        });
         break;
       case GameController.ATTACHED_COPM_SHIPS:
         this.store.setState({

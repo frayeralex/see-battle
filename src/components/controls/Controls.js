@@ -66,10 +66,9 @@ class Controls extends AbstractElement {
         ...this.controls,
         ...{start: {...this.controls.start, ...{disabled: false, label: 'Start'}}},
         ...{pause: {...this.controls.pause, ...{disabled: true}}},
-        ...{clear: {...this.controls.clear, ...{disabled: true}}}
+        ...{clear: {...this.controls.clear, ...{disabled: true}}},
+        ...{random: {...this.controls.random, ...{disabled: false}}}
       },
-      cells: [],
-      ships: [],
       gameState: GameController.ATTACHED_SHIPS
     });
   }

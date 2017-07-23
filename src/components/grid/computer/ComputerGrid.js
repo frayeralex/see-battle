@@ -29,6 +29,9 @@ class ComputerGrid extends Grid {
         case GameController.COMP_ACTION:
           this.root.classList.add('disabled');
           break;
+        case GameController.END_GAME:
+          this.root.classList.add('disabled');
+          break;
         default:
           return null;
       }
