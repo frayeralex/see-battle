@@ -1,7 +1,7 @@
-import AbstractElement from '../common/AbstractElement';
+import AbstractView from '../common/AbstractView';
 
 
-class Grid extends AbstractElement {
+class Grid extends AbstractView {
   constructor() {
     super(...arguments);
     this._renderGrid();
@@ -78,6 +78,30 @@ class Grid extends AbstractElement {
       }
     });
   }
+
+  updateMissCells(cells = []) {
+    this.removeBySelector(`.${Grid.MISS_CELL_CLASS}`);
+    cells.forEach(({x, y}) => {
+      const ship = document.createElement('div');
+      ship.classList.add(Grid.MISS_CELL_CLASS);
+      const target = this.root.querySelector(`.ship-area [data-${Grid.ROW_KEY}="${x}"] [data-${Grid.CELL_KEY}="${y}"]`);
+      if (target instanceof Element) {
+        target.appendChild(ship);
+      }
+    });
+  }
+
+  updateHitCells(cells = []) {
+    this.removeBySelector(`.${Grid.HIT_CELL_CLASS}`);
+    cells.forEach(({x, y}) => {
+      const ship = document.createElement('div');
+      ship.classList.add(Grid.HIT_CELL_CLASS);
+      const target = this.root.querySelector(`.ship-area [data-${Grid.ROW_KEY}="${x}"] [data-${Grid.CELL_KEY}="${y}"]`);
+      if (target instanceof Element) {
+        target.appendChild(ship);
+      }
+    });
+  }
 }
 
 Grid.CELL_CLASS = 'cell';
@@ -86,6 +110,7 @@ Grid.ROW_CLASS = 'row';
 Grid.ROW_KEY = 'rowkey';
 Grid.NODE_TYPE = 'div';
 Grid.EVENT_CELL_CLICKED = 'cellClicked';
-
+Grid.MISS_CELL_CLASS = 'miss';
+Grid.HIT_CELL_CLASS = 'hit';
 
 export default Grid;

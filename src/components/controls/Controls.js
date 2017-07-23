@@ -1,4 +1,4 @@
-import AbstractElement from '../common/AbstractElement';
+import AbstractElement from '../common/AbstractView';
 import GameController from '../../core/GameController';
 
 

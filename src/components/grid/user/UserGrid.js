@@ -11,13 +11,22 @@ class UserGrid extends Grid {
     super(...arguments);
   }
 
-  updateView({cells, gameState}) {
+  updateView({cells, gameState, compMissCells, compHitCells}) {
     if (cells) {
       this.updateCells(cells);
     }
+
     if (gameState) {
       this.disabledGrid = gameState !== GameController.ATTACHED_SHIPS;
       this.updateGridState();
+    }
+
+    if (compMissCells) {
+      this.updateMissCells(compMissCells);
+    }
+
+    if (compHitCells) {
+      this.updateHitCells(compHitCells);
     }
   }
 
@@ -26,7 +35,7 @@ class UserGrid extends Grid {
   }
 
   updateCells(cells = []) {
-    this.removeShips();
+    this.removeBySelector(`.ship-area .${UserGrid.SHIP_CLASS}`);
     cells.forEach(({x, y}) => {
       const ship = document.createElement('div');
       ship.classList.add(UserGrid.SHIP_CLASS);
@@ -35,10 +44,6 @@ class UserGrid extends Grid {
         target.appendChild(ship);
       }
     });
-  }
-
-  removeShips() {
-    this.root.querySelectorAll(`.ship-area .${UserGrid.SHIP_CLASS}`).forEach(node => node.remove());
   }
 }
 

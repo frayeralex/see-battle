@@ -17,6 +17,10 @@ class AbstractElement {
   bindHandler(element, type, action, options = {}) {
     element.addEventListener(type, action.bind(this), options);
   }
+
+  removeBySelector(selector) {
+    this.root.querySelectorAll(selector).forEach(node => node.remove());
+  }
 }
 
 export default AbstractElement;

@@ -6,6 +6,13 @@
   .user
     &.disabled
 
+      .miss
+        &:before
+          background rgba(0,0,0,.3)
+      .hit
+        &:before
+          background red
+
       .ship
         background rgba(0,0,0,.5)
 
@@ -49,11 +56,10 @@
     box-sizing border-box
     width 50px
     height 50px
-    transition .3s
 
     &:hover
       cursor pointer
-      background pink
+      border 2px dotted red
 
   .ship-area
     position absolute

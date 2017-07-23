@@ -58,8 +58,9 @@ class ComputerGridController {
   }
 
   userAttempt({x, y}) {
-    if (this.userHitCells.find((item) => x === item.x && y === item.y)) return;
-    if (this.userMissCells.find((item) => x === item.x && y === item.y)) return;
+    if (this.gameState !== GameController.USER_ACTION) return;
+    if (this.userHitCells.find(({x: X, y: Y}) => x === X && y === Y)) return;
+    if (this.userMissCells.find(({x: X, y: Y}) => x === X && y === Y)) return;
 
     const damagedShip = this.compShips.find(ship => ship.isInCoordinates(x ,y));
     const all = this.attempts.all + 1;

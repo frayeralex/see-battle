@@ -41,37 +41,6 @@ class ComputerGrid extends Grid {
       this.updateHitCells(userHitCells)
     }
   }
-
-  updateMissCells(cells = []) {
-    this.removeBySelector(`.${ComputerGrid.MISS_CELL_CLASS}`);
-    cells.forEach(({x, y}) => {
-      const ship = document.createElement('div');
-      ship.classList.add(ComputerGrid.MISS_CELL_CLASS);
-      const target = this.root.querySelector(`.ship-area [data-${Grid.ROW_KEY}="${x}"] [data-${Grid.CELL_KEY}="${y}"]`);
-      if (target instanceof Element) {
-        target.appendChild(ship);
-      }
-    });
-  }
-
-  updateHitCells(cells = []) {
-    this.removeBySelector(`.${ComputerGrid.HIT_CELL_CLASS}`);
-    cells.forEach(({x, y}) => {
-      const ship = document.createElement('div');
-      ship.classList.add(ComputerGrid.HIT_CELL_CLASS);
-      const target = this.root.querySelector(`.ship-area [data-${Grid.ROW_KEY}="${x}"] [data-${Grid.CELL_KEY}="${y}"]`);
-      if (target instanceof Element) {
-        target.appendChild(ship);
-      }
-    });
-  }
-
-  removeBySelector(selector) {
-    this.root.querySelectorAll(selector).forEach(node => node.remove());
-  }
 }
-
-ComputerGrid.MISS_CELL_CLASS = 'miss';
-ComputerGrid.HIT_CELL_CLASS = 'hit';
 
 export default ComputerGrid;

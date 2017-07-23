@@ -67,7 +67,7 @@ class GridComposer {
     const mergeShip = this.ships.find(ship => ship.canMerge(x, y));
     if (mergeShip) {
       if (this.ships.filter(ship => ship.isNearest(x, y)).length > 1) return;
-      if (this.delayMerge(mergeShip)) return;
+      if (this.rejectMerge(mergeShip)) return;
 
       this.addCell({x, y});
       mergeShip.merge(x, y);
@@ -80,7 +80,7 @@ class GridComposer {
     }
   }
 
-  delayMerge(ship) {
+  rejectMerge(ship) {
     const {type2, type3, type4} = this.ships.reduce((res, ship) => {
       res[`type${ship.type}`] ? res[`type${ship.type}`].push(ship) : res[`type${ship.type}`] = [ship];
       return res;

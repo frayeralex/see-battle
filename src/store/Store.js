@@ -3,7 +3,6 @@
  */
 class Store {
   static init(object = {}) {
-    console.log('init')
     return new Store(object);
   }
 
