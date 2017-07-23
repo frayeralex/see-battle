@@ -14,15 +14,6 @@ class ComputerGridController {
     this.grid = gridView;
     this.store = store;
 
-    this.store.setDefaultState({
-      attempts: {
-        all: 0,
-        success: 0
-      },
-      userMissCells: [],
-      userHitCells: []
-    });
-
     this.grid.addEventHandler(Grid.EVENT_CELL_CLICKED, this._onCellClicked.bind(this));
     this.store.subscribe(this.observeStore.bind(this));
 

@@ -25,26 +25,7 @@ class Controls extends AbstractElement {
       }
     };
 
-    this.controls = {
-      start: {
-        label: 'Start',
-        disabled: true
-      },
-      pause: {
-        label: 'Pause',
-        disabled: true
-      },
-      clear: {
-        label: 'Clear',
-        disabled: true
-      },
-      random: {
-        label: 'Random generation',
-        disabled: false
-      }
-    };
-    this.store.setDefaultState({controls: this.controls});
-
+    this.controls = this.store.state.controls;
     this.nodes.controls.start.addEventListener('click', this.startClickHandler.bind(this));
     this.nodes.controls.pause.addEventListener('click', this.pauseClickHandler.bind(this));
     this.nodes.controls.clear.addEventListener('click', this.clearClickHandler.bind(this));
@@ -54,15 +35,13 @@ class Controls extends AbstractElement {
   }
 
   startClickHandler() {
-    const newStart = {start: {...this.controls.start, ...{disabled: true, label: 'Start'}}};
-    const newPause = {pause: {...this.controls.pause, ...{disabled: false}}};
-    const newClear = {clear: {...this.controls.clear, ...{disabled: false}}};
     this.store.setState({
       controls: {
         ...this.controls,
-        ...newStart,
-        ...newPause,
-        ...newClear
+        ...{start: {...this.controls.start, ...{disabled: true, label: 'Start'}}},
+        ...{pause: {...this.controls.pause, ...{disabled: false}}},
+        ...{clear: {...this.controls.clear, ...{disabled: false}}},
+        ...{random: {...this.controls.random, ...{disabled: true}}}
       },
       gameState: this.store.state.gameState === GameController.ATTACHED_SHIPS
         ? GameController.ATTACHED_COPM_SHIPS
@@ -71,29 +50,23 @@ class Controls extends AbstractElement {
   }
 
   pauseClickHandler() {
-    const newStart = {start: {...this.controls.start, ...{disabled: false, label: 'Continue!'}}};
-    const newPause = {pause: {...this.controls.pause, ...{disabled: true}}};
-    const newClear = {clear: {...this.controls.clear, ...{disabled: false}}};
     this.store.setState({
       controls: {
         ...this.controls,
-        ...newStart,
-        ...newPause,
-        ...newClear
+        ...{start: {...this.controls.start, ...{disabled: false, label: 'Continue!'}}},
+        ...{pause: {...this.controls.pause, ...{disabled: true}}},
+        ...{clear: {...this.controls.clear, ...{disabled: false}}}
       }
     });
   }
 
   clearClickHandler() {
-    const newStart = {start: {...this.controls.start, ...{disabled: true, label: 'Start'}}};
-    const newPause = {pause: {...this.controls.pause, ...{disabled: true}}};
-    const newClear = {clear: {...this.controls.clear, ...{disabled: true}}};
     this.store.setState({
       controls: {
         ...this.controls,
-        ...newStart,
-        ...newPause,
-        ...newClear
+        ...{start: {...this.controls.start, ...{disabled: false, label: 'Start'}}},
+        ...{pause: {...this.controls.pause, ...{disabled: true}}},
+        ...{clear: {...this.controls.clear, ...{disabled: true}}}
       },
       cells: [],
       ships: [],
@@ -116,7 +89,7 @@ class Controls extends AbstractElement {
   }
 
   render() {
-    const {controls} = this.nodes;
+    const { controls } = this.nodes;
 
     Object.keys(this.controls)
       .forEach((key) => {
@@ -124,7 +97,6 @@ class Controls extends AbstractElement {
         controls[key].disabled = this.controls[key].disabled;
       });
   }
-
 }
 
 export default Controls;

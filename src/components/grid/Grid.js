@@ -4,58 +4,55 @@ import AbstractView from '../common/AbstractView';
 class Grid extends AbstractView {
   constructor() {
     super(...arguments);
-    this._renderGrid();
 
-    this._eventHandlers = [];
+    this.eventHandlers = [];
+		this.renderGrid();
   }
 
-  _renderGrid() {
-    for (let indexRow = 1; indexRow <= 10; indexRow++) {
-      const rowElement = document.createElement(Grid.NODE_TYPE);
-      rowElement.classList.add(Grid.ROW_CLASS);
-      rowElement.dataset[Grid.ROW_KEY] = indexRow;
-
-      for (let indexCell = 1; indexCell <= 10; indexCell++) {
-        const element = document.createElement(Grid.NODE_TYPE);
-        element.classList.add(Grid.CELL_CLASS);
-        element.dataset[Grid.CELL_KEY] = indexCell;
-        rowElement.appendChild(element);
-      }
-
-      this.root.appendChild(rowElement);
-    }
+  renderGrid() {
+		for (let row = 1; row <= 10; row++) {
+			const rowNode = this.createNode(Grid.NODE_TYPE, [Grid.ROW_CLASS], {[Grid.ROW_KEY]: row});
+			for (let cell = 1; cell <= 10; cell++) {
+				const cellNode = this.createNode(Grid.NODE_TYPE, [Grid.CELL_CLASS], {[Grid.CELL_KEY]: cell});
+				rowNode.appendChild(cellNode);
+			}
+			this.root.appendChild(rowNode);
+		}
     const shipsArea = document.createElement(Grid.NODE_TYPE);
     shipsArea.classList.add('ship-area');
 
-    for (let indexRow = 1; indexRow <= 10; indexRow++) {
-      const rowElement = document.createElement(Grid.NODE_TYPE);
-      rowElement.classList.add(Grid.ROW_CLASS);
-      rowElement.dataset[Grid.ROW_KEY] = indexRow;
-
-      for (let indexCell = 1; indexCell <= 10; indexCell++) {
-        const element = document.createElement(Grid.NODE_TYPE);
-        element.classList.add(Grid.CELL_CLASS);
-        element.dataset[Grid.CELL_KEY] = indexCell;
-        rowElement.appendChild(element);
+    for (let row = 1; row <= 10; row++) {
+      const rowNode = this.createNode(Grid.NODE_TYPE, [Grid.ROW_CLASS], {[Grid.ROW_KEY]: row});
+      for (let cell = 1; cell <= 10; cell++) {
+        const cellNode = this.createNode(Grid.NODE_TYPE, [Grid.CELL_CLASS], {[Grid.CELL_KEY]: cell});
+				rowNode.appendChild(cellNode);
       }
-
-      shipsArea.appendChild(rowElement);
+      shipsArea.appendChild(rowNode);
     }
     this.root.appendChild(shipsArea);
 
-    this.root.addEventListener('click', this._onCellClick.bind(this));
+    this.root.addEventListener('click', this.onCellClick.bind(this));
+  }
+
+  createNode(type, classList, attr) {
+    const node = document.createElement(type);
+		classList.forEach(name => node.classList.add(name));
+    Object.keys(attr).forEach((key) => {
+      node.dataset[key] = attr[key];
+    });
+    return node;
   }
 
   addEventHandler(type, callback) {
-    this._eventHandlers.push({type, callback});
-    return () => this._removeEventHandler(type, callback);
+    this.eventHandlers.push({type, callback});
+    return () => this.removeEventHandler(type, callback);
   }
 
-  _removeEventHandler(type, callback) {
-    this._eventHandlers = this._eventHandlers.filter(handler => !(handler.callback === callback && handler.type === type));
+  removeEventHandler(type, callback) {
+    this.eventHandlers = this.eventHandlers.filter(handler => !(handler.callback === callback && handler.type === type));
   }
 
-  _getCellPosition(event = {}) {
+  getCellPosition(event = {}) {
     if (event.target instanceof Element) {
       const position = {};
       if (event.target.classList.contains(Grid.CELL_CLASS)) {
@@ -66,13 +63,13 @@ class Grid extends AbstractView {
     }
   }
 
-  _onCellClick(event) {
-    const position = this._getCellPosition(event);
-    this._triggerEvents({type: Grid.EVENT_CELL_CLICKED, position});
+  onCellClick(event) {
+    const position = this.getCellPosition(event);
+    this.triggerEvents({type: Grid.EVENT_CELL_CLICKED, position});
   }
 
-  _triggerEvents(customEvent) {
-    this._eventHandlers.forEach(handler => {
+  triggerEvents(customEvent) {
+    this.eventHandlers.forEach(handler => {
       if (customEvent.type === handler.type) {
         handler.callback(customEvent);
       }

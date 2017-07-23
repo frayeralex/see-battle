@@ -2,6 +2,7 @@ import './main.styl';
 
 // Model
 import Store from './store/Store';
+import initState from './config/initState';
 
 // View
 import Statistic from './components/statistic/Statistic';
@@ -38,7 +39,7 @@ const config = {
   ]
 };
 
-const store = Store.init();
+const store = Store.init(initState);
 GameController.bootstrap(store, config);
 
 

@@ -10,6 +10,7 @@ class ComputerGrid extends Grid {
   constructor() {
     super(...arguments);
     this.disabledGrid = true;
+      this.root.classList.add('disabled');
   }
 
   updateView({computerCells, gameState, userMissCells, userHitCells}) {

@@ -13,12 +13,6 @@ class GridComposer {
     if (!(store instanceof Store)) throw new Error('Store is require');
     this.grid = gridView;
     this.store = store;
-
-    this.store.setDefaultState({
-      cells: [],
-      ships: []
-    });
-
     this.grid.addEventHandler(Grid.EVENT_CELL_CLICKED, this._onCellClicked.bind(this));
   }
 

@@ -1,4 +1,5 @@
 import Ship from '../models/Ship';
+import defaultState from '../config/initState';
 
 
 class GameController {
@@ -75,21 +76,22 @@ class GameController {
     this.components = components;
     this.store = store;
     this.store.subscribe(this.observeChanges.bind(this));
-
-    this.store.setDefaultState({
-      gameState: GameController.ATTACHED_SHIPS,
-      compMissCells: [],
-      compHitCells: [],
-      compCanHitCells: GameController.generateGridCoordinates()
-    });
   }
 
   get gameState() {
     return this.store.state.gameState;
   }
 
+	get attempts() {
+		return this.store.state.attempts;
+	}
+
   get ships() {
     return this.store.state.ships;
+  }
+
+  get compShips() {
+      return this.store.state.compShips;
   }
 
   get compMissCells() {
@@ -105,32 +107,56 @@ class GameController {
   }
 
   observeChanges(props = {}) {
-    Object.keys(props)
-      .forEach((key) => {
-        if (this[`${key}Observe`]) {
-          this[`${key}Observe`](props[key]);
-        }
-      });
+    Object.keys(props).forEach((key) => {
+      if (this[`${key}Observe`]) {
+        this[`${key}Observe`](props[key]);
+      }
+    });
   }
 
   gameStateObserve(state) {
     switch (state) {
+      case GameController.ATTACHED_SHIPS:
+        this.store.setState({...defaultState, ...{attempts: this.attempts}});
+        break;
       case GameController.ATTACHED_COPM_SHIPS:
         this.store.setState({
           compShips: GameController.createRandomShips(),
-          gameState: GameController.USER_ACTION
         });
+        setTimeout(() => {
+            this.store.setState({
+                gameState: GameController.USER_ACTION
+            });
+        }, 1500);
         break;
       case GameController.USER_ACTION:
+        if (this.isGameOver()) {
+           return this.store.setState({
+            gameState: GameController.END_GAME
+          });
+        }
         break;
       case GameController.COMP_ACTION:
-        this.runCompAction();
+        if (this.isGameOver()) {
+          return this.store.setState({
+            gameState: GameController.END_GAME
+          });
+        }
+        setTimeout(() => {
+            this.runCompAction();
+        }, GameController.randomNumber(1500));
         break;
       case GameController.END_GAME:
-
+        console.log('end game');
       default:
         return null;
     }
+  }
+
+  isGameOver(){
+    const compShipsKill = this.compShips.every(ship => ship.isKilled());
+    const userShipsKill = this.ships.every(ship => ship.isKilled());
+    return compShipsKill || userShipsKill;
   }
 
   runCompAction() {

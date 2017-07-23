@@ -1,4 +1,5 @@
 import AbstractElement from '../common/AbstractView';
+import GameController from "../../core/GameController";
 
 
 class Statistic extends AbstractElement {
@@ -16,17 +17,20 @@ class Statistic extends AbstractElement {
     super(element, store);
 
     this.nodes = {
-      attempt: {
+      attempts: {
         all: this.root.querySelector('.attempt [data-key="all"]'),
         success: this.root.querySelector('.attempt [data-key="success"]'),
         failed: this.root.querySelector('.attempt [data-key="failed"]'),
         percent: this.root.querySelector('.attempt [data-key="percent"]')
       },
-      ships: {
+      aliveShips: {
         cell4: this.root.querySelector('.ships [data-key="4"]'),
         cell3: this.root.querySelector('.ships [data-key="3"]'),
         cell2: this.root.querySelector('.ships [data-key="2"]'),
         cell1: this.root.querySelector('.ships [data-key="1"]'),
+      },
+      global: {
+        action: this.root.querySelector('.action')
       }
     };
 
@@ -44,14 +48,18 @@ class Statistic extends AbstractElement {
       cell1: 4
     };
 
+    this.global = {
+      action: 'Please set your ships'
+    };
+
     this.render();
   }
 
-  updateView({attempts, compShips}) {
+  updateView({attempts, compShips, gameState}) {
     if (attempts) {
       this.attempts = {...attempts};
       this.attempts.failed = this.attempts.all - this.attempts.success;
-      this.attempts.percent = parseFloat((this.attempts.success * 100 / this.attempts.all).toFixed(2));
+      this.attempts.percent = this.attempts.all > 0 ? parseFloat((this.attempts.success * 100 / this.attempts.all).toFixed(2)) : 0;
     }
 
     if (compShips) {
@@ -60,16 +68,33 @@ class Statistic extends AbstractElement {
       }
     }
 
-    this.render(this.nodes);
+    if (gameState) {
+      switch (gameState) {
+          case GameController.ATTACHED_COPM_SHIPS:
+            this.global.action = 'Computer set ships';
+            break;
+          case GameController.COMP_ACTION:
+            this.global.action = 'Computer attempt!';
+            break;
+          case GameController.USER_ACTION:
+            this.global.action = 'You attempt!';
+            break;
+          case GameController.END_GAME:
+            const winner = this.store.state.ships.every(ship => ship.isKilled()) ? 'Game over, computer win!' : 'Congradulations! You win!';
+            this.global.action = winner;
+            break;
+          default:
+            this.global.action = 'Please set your ships';
+      }
+    }
+    this.render();
   }
 
   render() {
-    const {attempt, ships} = this.nodes;
-    Object.keys(attempt).forEach((key) => {
-      attempt[key].innerHTML = this.attempts[key];
-    });
-    Object.keys(ships).forEach((key) => {
-      ships[key].innerHTML = this.aliveShips[key];
+    Object.keys(this.nodes).forEach((subject) => {
+      Object.keys(this.nodes[subject]).forEach((node) => {
+          this.nodes[subject][node].innerHTML = this[subject][node];
+      });
     });
   }
 }
