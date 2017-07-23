@@ -11,12 +11,7 @@ class Ship {
   }
 
   canMerge(x, y) {
-    return this.relativeCells.reduce((can, xy) => {
-      if (xy[0] === x && xy[1] === y) {
-        can = true;
-      }
-      return can;
-    }, false);
+    return this.relativeCells.some(([X, Y]) => X === x && Y === y);
   }
 
   merge(x, y) {
@@ -42,11 +37,11 @@ class Ship {
   }
 
   isShipNearest(ship) {
-    return ship.coordinats.some(xy => this.isNearest(xy.x, xy.y));
+    return ship.coordinats.some(({x, y}) => this.isNearest(x, y));
   }
 
   isInCoordinates(x, y) {
-    return !!this.coordinats.find((cell) => cell.x === x && cell.y === y);
+    return !!this.coordinats.find(({x: X, y: Y}) => X === x && Y === y);
   }
 
   setDamage(x, y) {
@@ -64,7 +59,7 @@ class Ship {
   }
 
   isKilled() {
-    return this.coordinats.every(cell => cell.status === Ship.KILL);
+    return this.coordinats.every(({status}) => status === Ship.KILL);
   }
 
   globalUpdate() {

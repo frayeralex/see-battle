@@ -1,5 +1,4 @@
 import Ship from '../models/Ship';
-import defaultState from '../config/initState';
 
 
 class GameController {

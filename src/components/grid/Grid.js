@@ -7,6 +7,7 @@ class Grid extends AbstractView {
 
     this.eventHandlers = [];
 		this.renderGrid();
+    this.root.addEventListener('click', this.onCellClick.bind(this));
   }
 
   renderGrid() {
@@ -30,8 +31,6 @@ class Grid extends AbstractView {
       shipsArea.appendChild(rowNode);
     }
     this.root.appendChild(shipsArea);
-
-    this.root.addEventListener('click', this.onCellClick.bind(this));
   }
 
   createNode(type, classList, attr) {

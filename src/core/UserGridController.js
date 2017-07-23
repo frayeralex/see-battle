@@ -17,6 +17,7 @@ class GridComposer {
   }
 
   _onCellClicked({x, y}) {
+    console.log(x, y)
     const {cells} = this.store.state;
 
     const cell = cells.find(cell => cell.x === x && cell.y === y);
