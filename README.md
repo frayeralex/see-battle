@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/frayeralex/see-battle.svg?branch=master)](https://travis-ci.org/frayeralex)
+
+
 Sea battle
 ===============================
 
