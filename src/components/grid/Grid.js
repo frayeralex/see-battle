@@ -37,7 +37,9 @@ class Grid extends AbstractView {
     const node = document.createElement(type);
 		classList.forEach(name => node.classList.add(name));
     Object.keys(attr).forEach((key) => {
-      node.dataset[key] = attr[key];
+      if (node && node.dataset) {
+        node.dataset[key] = attr[key];
+      }
     });
     return node;
   }

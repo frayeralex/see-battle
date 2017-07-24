@@ -33,6 +33,8 @@
     "css-loader": "^0.28.4",
     "html-webpack-plugin": "^2.29.0",
     "ignore-styles": "^5.0.1",
+    "jsdom": "11.1.0",
+    "jsdom-global": "3.0.2",
     "mocha": "^3.4.2",
     "style-loader": "^0.18.2",
     "stylus": "^0.54.5",
