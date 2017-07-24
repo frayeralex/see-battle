@@ -16,8 +16,8 @@ class GridComposer {
     this.grid.addEventHandler(Grid.EVENT_CELL_CLICKED, this._onCellClicked.bind(this));
   }
 
-  _onCellClicked({x, y}) {
-    console.log(x, y)
+  _onCellClicked({position}) {
+    const {x, y} = position;
     const {cells} = this.store.state;
 
     const cell = cells.find(cell => cell.x === x && cell.y === y);
