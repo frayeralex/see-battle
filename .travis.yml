@@ -3,3 +3,16 @@ node_js:
   - "6"
 before_install:
   - npm i -g npm@4
+  - npm --version
+
+notifications:
+  email:
+    recipients:
+      - frayeralex@gmail.com
+    on_success: always
+    on_failure: always
+
+
+  slack:
+    rooms:
+      - foo-baz-bar:9ZdpWsX4B4FfpADm0wA9vJLX#random
