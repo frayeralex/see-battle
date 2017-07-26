@@ -1,7 +1,7 @@
 import Store from '../../store/Store';
 
 
-class AbstractElement {
+class AbstractView {
   constructor(element, store) {
     if (!(store instanceof Store)) throw new Error('Store is require');
     this.root = element;
@@ -13,13 +13,9 @@ class AbstractElement {
   updateView() {
   }
 
-  bindHandler(element, type, action, options = {}) {
-    element.addEventListener(type, action.bind(this), options);
-  }
-
   removeBySelector(selector) {
     this.root.querySelectorAll(selector).forEach(node => node.remove());
   }
 }
 
-export default AbstractElement;
+export default AbstractView;
