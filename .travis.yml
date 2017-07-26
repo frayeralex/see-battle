@@ -4,6 +4,7 @@ node_js:
 before_install:
   - npm i -g npm@4
   - npm --version
+after_success: npm run coverage
 
 notifications:
   email:

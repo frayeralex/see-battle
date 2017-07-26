@@ -7,7 +7,8 @@
     "serve": "webpack-dev-server --open",
     "build": "webpack -p",
     "lint": "eslint 'src/**/*.js' --ignore-pattern 'src/**/*.spec.js' --format codeframe",
-    "test": "mocha --compilers js:babel-register --require ignore-styles --require babel-polyfill -R progress ./src/**/*.spec.js"
+    "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-register --require ignore-styles --require babel-polyfill -R progress ./src/**/*.spec.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "pre-commit": [
     "lint",
@@ -35,6 +36,7 @@
     "babel-preset-stage-3": "^6.24.1",
     "babel-register": "^6.24.1",
     "chai": "^4.0.2",
+    "coveralls": "^2.13.1",
     "css-loader": "^0.28.4",
     "eslint": "^4.3.0",
     "html-webpack-plugin": "^2.29.0",
