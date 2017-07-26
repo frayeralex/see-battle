@@ -9,6 +9,10 @@
     "lint": "eslint 'src/**/*.js' --ignore-pattern 'src/**/*.spec.js' --format codeframe",
     "test": "mocha --compilers js:babel-register --require ignore-styles --require babel-polyfill -R progress ./src/**/*.spec.js"
   },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
   "keywords": [
     "game"
   ],

@@ -30,9 +30,9 @@ describe('GameController', () => {
       });
 
       it('should contain components', () => {
-        game.components.forEach(({node, componentView, controller}) => {
+        game.components.forEach(({componentView}) => {
           expect(componentView).is.instanceOf(AbstractView);
-        })
+        });
       });
 
       it('should contain store', () => {
