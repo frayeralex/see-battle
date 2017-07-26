@@ -10,7 +10,7 @@ class ComputerGrid extends Grid {
   constructor() {
     super(...arguments);
     this.disabledGrid = true;
-      this.root.classList.add('disabled');
+    this.root.classList.add('disabled');
   }
 
   updateView({computerCells, gameState, userMissCells, userHitCells}) {
@@ -20,20 +20,20 @@ class ComputerGrid extends Grid {
 
     if (gameState) {
       switch (gameState) {
-        case GameController.USER_ACTION:
-          this.root.classList.remove('disabled');
-          break;
-        case GameController.ATTACHED_SHIPS:
-          this.root.classList.add('disabled');
-          break;
-        case GameController.COMP_ACTION:
-          this.root.classList.add('disabled');
-          break;
-        case GameController.END_GAME:
-          this.root.classList.add('disabled');
-          break;
-        default:
-          return null;
+      case GameController.USER_ACTION:
+        this.root.classList.remove('disabled');
+        break;
+      case GameController.ATTACHED_SHIPS:
+        this.root.classList.add('disabled');
+        break;
+      case GameController.COMP_ACTION:
+        this.root.classList.add('disabled');
+        break;
+      case GameController.END_GAME:
+        this.root.classList.add('disabled');
+        break;
+      default:
+        return null;
       }
     }
 
@@ -42,7 +42,7 @@ class ComputerGrid extends Grid {
     }
 
     if (userHitCells) {
-      this.updateHitCells(userHitCells)
+      this.updateHitCells(userHitCells);
     }
   }
 }

@@ -1,5 +1,5 @@
 import AbstractElement from '../common/AbstractView';
-import GameController from "../../core/GameController";
+import GameController from '../../core/GameController';
 
 
 class Statistic extends AbstractElement {
@@ -64,36 +64,41 @@ class Statistic extends AbstractElement {
 
     if (compShips) {
       for (let type = 1; type <= 4; type++) {
-        this.aliveShips[`cell${type}`] = compShips.filter(ship => ship.type === type && !ship.isKilled()).length
+        this.aliveShips[`cell${type}`] = compShips.filter(ship => ship.type === type && !ship.isKilled()).length;
       }
     }
 
     if (gameState) {
       switch (gameState) {
-          case GameController.ATTACHED_COPM_SHIPS:
-            this.global.action = 'Computer set ships';
-            break;
-          case GameController.COMP_ACTION:
-            this.global.action = 'Computer attempt!';
-            break;
-          case GameController.USER_ACTION:
-            this.global.action = 'You attempt!';
-            break;
-          case GameController.END_GAME:
-            const winner = this.store.state.ships.every(ship => ship.isKilled()) ? 'Game over, computer win!' : 'Congradulations! You win!';
-            this.global.action = winner;
-            break;
-          default:
-            this.global.action = 'Please set your ships';
+      case GameController.ATTACHED_COPM_SHIPS:
+        this.global.action = 'Computer set ships';
+        break;
+      case GameController.COMP_ACTION:
+        this.global.action = 'Computer attempt!';
+        break;
+      case GameController.USER_ACTION:
+        this.global.action = 'You attempt!';
+        break;
+      case GameController.END_GAME:
+        this.global.action = this.winnerMessage();
+        break;
+      default:
+        this.global.action = 'Please set your ships';
       }
     }
     this.render();
   }
 
+  winnerMessage() {
+    return this.store.state.ships.every(ship => ship.isKilled())
+      ? 'Game over, computer win!'
+      : 'Congratulations! You win!';
+  }
+
   render() {
     Object.keys(this.nodes).forEach((subject) => {
       Object.keys(this.nodes[subject]).forEach((node) => {
-          this.nodes[subject][node].innerHTML = this[subject][node];
+        this.nodes[subject][node].innerHTML = this[subject][node];
       });
     });
   }

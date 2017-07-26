@@ -6,6 +6,7 @@
   "scripts": {
     "serve": "webpack-dev-server --open",
     "build": "webpack -p",
+    "lint": "eslint 'src/**/*.js' --ignore-pattern 'src/**/*.spec.js' --format codeframe",
     "test": "mocha --compilers js:babel-register --require ignore-styles --require babel-polyfill -R progress ./src/**/*.spec.js"
   },
   "keywords": [
@@ -31,11 +32,13 @@
     "babel-register": "^6.24.1",
     "chai": "^4.0.2",
     "css-loader": "^0.28.4",
+    "eslint": "^4.3.0",
     "html-webpack-plugin": "^2.29.0",
     "ignore-styles": "^5.0.1",
     "jsdom": "11.1.0",
     "jsdom-global": "3.0.2",
     "mocha": "^3.4.2",
+    "pre-commit": "^1.2.2",
     "style-loader": "^0.18.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
