@@ -81,16 +81,16 @@ class GameController {
     return this.store.state.gameState;
   }
 
-	get attempts() {
-		return this.store.state.attempts;
-	}
+  get attempts() {
+    return this.store.state.attempts;
+  }
 
   get ships() {
     return this.store.state.ships;
   }
 
   get compShips() {
-      return this.store.state.compShips;
+    return this.store.state.compShips;
   }
 
   get compMissCells() {
@@ -115,50 +115,51 @@ class GameController {
 
   gameStateObserve(state) {
     switch (state) {
-      case GameController.ATTACHED_SHIPS:
+    case GameController.ATTACHED_SHIPS:
+      this.store.setState({
+        ...{attempts: this.attempts},
+        cells: [],
+        ships: [],
+        compShips: [],
+        userMissCells: [],
+        userHitCells: [],
+        compMissCells: [],
+        compHitCells: [],
+        compCanHitCells: GameController.generateGridCoordinates(),
+      });
+      break;
+    case GameController.ATTACHED_COPM_SHIPS:
+      this.store.setState({
+        compShips: GameController.createRandomShips(),
+      });
+      setTimeout(() => {
         this.store.setState({
-          ...{attempts: this.attempts},
-          cells: [],
-          ships: [],
-          compShips: [],
-          userMissCells: [],
-          userHitCells: [],
-          compMissCells: [],
-          compHitCells: [],
-          compCanHitCells: GameController.generateGridCoordinates(),
+          gameState: GameController.USER_ACTION
         });
-        break;
-      case GameController.ATTACHED_COPM_SHIPS:
-        this.store.setState({
-          compShips: GameController.createRandomShips(),
+      }, 1500);
+      break;
+    case GameController.USER_ACTION:
+      if (this.isGameOver()) {
+        return this.store.setState({
+          gameState: GameController.END_GAME
         });
-        setTimeout(() => {
-            this.store.setState({
-                gameState: GameController.USER_ACTION
-            });
-        }, 1500);
-        break;
-      case GameController.USER_ACTION:
-        if (this.isGameOver()) {
-           return this.store.setState({
-            gameState: GameController.END_GAME
-          });
-        }
-        break;
-      case GameController.COMP_ACTION:
-        if (this.isGameOver()) {
-          return this.store.setState({
-            gameState: GameController.END_GAME
-          });
-        }
-        setTimeout(() => {
-            this.runCompAction();
-        }, GameController.randomNumber(1500));
-        break;
-      case GameController.END_GAME:
-        console.log('end game');
-      default:
-        return null;
+      }
+      break;
+    case GameController.COMP_ACTION:
+      if (this.isGameOver()) {
+        return this.store.setState({
+          gameState: GameController.END_GAME
+        });
+      }
+      setTimeout(() => {
+        this.runCompAction();
+      }, GameController.randomNumber(1500));
+      break;
+    case GameController.END_GAME:
+      console.log('end game');
+      break;
+    default:
+      return null;
     }
   }
 
@@ -200,7 +201,7 @@ class GameController {
     });
   }
 
-  shipsObserve(ships) {
+  shipsObserve() {
     const {start} = this.store.state.controls;
 
     if (start.disabled && this.isReadyToStart) {

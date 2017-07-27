@@ -71,6 +71,17 @@ describe('Store', () => {
     });
   });
 
+  describe('#setDefaultState', () => {
+    it('should update store but not run subscription actions', () => {
+      let publishCallCount = 0;
+      const action = () => publishCallCount++;
+      store.subscribe(action);
+
+      store.setDefaultState({bar: 1});
+      expect(publishCallCount).to.equal(0);
+    });
+  });
+
   describe('#reset', () => {
     it('should reset store state', () => {
       store.reset();

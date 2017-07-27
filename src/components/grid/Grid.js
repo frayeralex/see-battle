@@ -6,19 +6,19 @@ class Grid extends AbstractView {
     super(...arguments);
 
     this.eventHandlers = [];
-		this.renderGrid();
+    this.renderGrid();
     this.root.addEventListener('click', this.onCellClick.bind(this));
   }
 
   renderGrid() {
-		for (let row = 1; row <= 10; row++) {
-			const rowNode = this.createNode(Grid.NODE_TYPE, [Grid.ROW_CLASS], {[Grid.ROW_KEY]: row});
-			for (let cell = 1; cell <= 10; cell++) {
-				const cellNode = this.createNode(Grid.NODE_TYPE, [Grid.CELL_CLASS], {[Grid.CELL_KEY]: cell});
-				rowNode.appendChild(cellNode);
-			}
-			this.root.appendChild(rowNode);
-		}
+    for (let row = 1; row <= 10; row++) {
+      const rowNode = this.createNode(Grid.NODE_TYPE, [Grid.ROW_CLASS], {[Grid.ROW_KEY]: row});
+      for (let cell = 1; cell <= 10; cell++) {
+        const cellNode = this.createNode(Grid.NODE_TYPE, [Grid.CELL_CLASS], {[Grid.CELL_KEY]: cell});
+        rowNode.appendChild(cellNode);
+      }
+      this.root.appendChild(rowNode);
+    }
     const shipsArea = document.createElement(Grid.NODE_TYPE);
     shipsArea.classList.add('ship-area');
 
@@ -26,7 +26,7 @@ class Grid extends AbstractView {
       const rowNode = this.createNode(Grid.NODE_TYPE, [Grid.ROW_CLASS], {[Grid.ROW_KEY]: row});
       for (let cell = 1; cell <= 10; cell++) {
         const cellNode = this.createNode(Grid.NODE_TYPE, [Grid.CELL_CLASS], {[Grid.CELL_KEY]: cell});
-				rowNode.appendChild(cellNode);
+        rowNode.appendChild(cellNode);
       }
       shipsArea.appendChild(rowNode);
     }
@@ -35,9 +35,11 @@ class Grid extends AbstractView {
 
   createNode(type, classList, attr) {
     const node = document.createElement(type);
-		classList.forEach(name => node.classList.add(name));
+    classList.forEach(name => node.classList.add(name));
     Object.keys(attr).forEach((key) => {
-      node.dataset[key] = attr[key];
+      if (node && node.dataset) {
+        node.dataset[key] = attr[key];
+      }
     });
     return node;
   }

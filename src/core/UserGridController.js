@@ -81,24 +81,23 @@ class GridComposer {
       return res;
     }, {});
     switch (ship.type) {
-      case 4:
+    case 4:
+      return true;
+    case 3:
+      if (type4) return true;
+      break;
+    case 2:
+      if (type3 && type3.length >= GridComposer.type3 && type4) {
         return true;
-        break;
-      case 3:
-        if (type4) return true;
-        break;
-      case 2:
-        if (type3 && type3.length >= GridComposer.type3 && type4) {
-          return true;
-        }
-        break;
-      case 1:
-        if (type2 && type3 && type2.length >= GridComposer.type2 && type3.length >= GridComposer.type3 && type4) {
-          return true;
-        }
-        break;
-      default:
-        return false;
+      }
+      break;
+    case 1:
+      if (type2 && type3 && type2.length >= GridComposer.type2 && type3.length >= GridComposer.type3) {
+        return true;
+      }
+      break;
+    default:
+      return false;
     }
   }
 }

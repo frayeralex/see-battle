@@ -81,7 +81,7 @@ class Ship {
       .filter(this.filterCells.bind(this));
 
     if (this.type > 1) {
-      const isHorisontall = this.coordinats.every(({x, y}) => x === this.coordinats[0].x);
+      const isHorisontall = this.coordinats.every(({x}) => x === this.coordinats[0].x);
       const key = isHorisontall ? 'x' : 'y';
       const index = isHorisontall ? 0 : 1;
       const value = this.coordinats[0][key];

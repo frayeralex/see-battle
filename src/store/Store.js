@@ -50,7 +50,7 @@ class Store {
   subscribe(action) {
     if (typeof action !== 'function') return null;
     this._subscribers.push(action);
-    return () => this._unsubscribe(action);
+    return () => this.unsubscribe(action);
   }
 
   /**
@@ -58,7 +58,7 @@ class Store {
    * @param action
    * @private
    */
-  _unsubscribe(action) {
+  unsubscribe(action) {
     this._subscribers = this._subscribers.filter((item) => item !== action);
   }
 
